@@ -1,19 +1,27 @@
 import { Container, Heading, Flex, Box, Text } from "@chakra-ui/react";
 import type { HeadingProps, TextProps } from "@chakra-ui/react";
 
-const Circle = ({ size = "20" }: { size: string }) => (
+const Circle = ({
+  size = "20",
+  outline = "#000000",
+  isFilled = false,
+}: {
+  size: string;
+  outline?: string;
+  isFilled?: boolean;
+}) => (
   <svg
     width={size}
     height={size}
     viewBox={`0 0 ${size} ${size}`}
-    fill="none"
+    fill={isFilled ? outline + "66" : "none"}
     xmlns="http://www.w3.org/2000/svg"
   >
     <circle
       cx={Number(size) / 2}
       cy={Number(size) / 2}
       r={Math.floor(Number(size) / 2)}
-      stroke="black"
+      stroke={outline}
     />
   </svg>
 );
@@ -43,6 +51,16 @@ const defaultSideLabelStyles: TextProps = {
   fontWeight: "700",
   fontSize: "9px",
   transform: "rotate(90deg)",
+};
+
+const yearToHex = (year: number) => {
+  if (year <= 12) return "#e7ac3e";
+  if (year <= 19) return "#f87a40";
+  if (year <= 34) return "#db61b0";
+  if (year <= 49) return "#ff4fe8";
+  if (year <= 79) return "#2acdf1";
+  if (year <= 100) return "#1af041";
+  return "#000000";
 };
 
 export default function Home() {
@@ -102,27 +120,66 @@ export default function Home() {
                   mr="2px"
                   key={`YEAR ${idx1 + 1} WEEK ${idx2 + 1}`}
                 >
-                  <Circle size="15" />
+                  <Circle size="15" outline={yearToHex(idx1 + 1)} />
                 </Box>
               ))}
             </Flex>
           ))}
         </Flex>
         <Flex direction="column">
-          <Text {...defaultSideLabelStyles} ml="-50px" mt="100px" w="120px">
+          <Text
+            {...defaultSideLabelStyles}
+            ml="-50px"
+            mt="100px"
+            w="120px"
+            color={yearToHex(12)}
+          >
             Childhood (Age 0 - 12)
           </Text>
-          <Text {...defaultSideLabelStyles} ml="-63px" mt="170px" w="150px">
+          <Text
+            {...defaultSideLabelStyles}
+            ml="-63px"
+            mt="158px"
+            w="150px"
+            color={yearToHex(19)}
+          >
             Adolescence (Age 13 - 19)
           </Text>
-          <Text {...defaultSideLabelStyles} ml="-76px" mt="180px" w="175px">
+          <Text
+            {...defaultSideLabelStyles}
+            ml="-76px"
+            mt="180px"
+            w="175px"
+            color={yearToHex(34)}
+          >
             Early Adulthood (Age 20 - 34)
           </Text>
-          <Text {...defaultSideLabelStyles} ml="-76px" mt="230px" w="175px">
+          <Text
+            {...defaultSideLabelStyles}
+            ml="-76px"
+            mt="230px"
+            w="175px"
+            color={yearToHex(49)}
+          >
             Middle Adulthood (Age 35 - 49)
           </Text>
-          <Text {...defaultSideLabelStyles} ml="-76px" mt="350px" w="175px">
-            Late Adulthood (Age 50 - 100)
+          <Text
+            {...defaultSideLabelStyles}
+            ml="-76px"
+            mt="350px"
+            w="175px"
+            color={yearToHex(79)}
+          >
+            Mature Adulthood (Age 50 - 79)
+          </Text>
+          <Text
+            {...defaultSideLabelStyles}
+            ml="-76px"
+            mt="430px"
+            w="175px"
+            color={yearToHex(100)}
+          >
+            Late Adulthood (Age 80 - 100)
           </Text>
         </Flex>
       </Box>
