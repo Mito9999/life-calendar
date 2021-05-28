@@ -73,7 +73,7 @@ export default function Home() {
         <Heading
           fontSize="12px"
           fontWeight="800"
-          mr="-60px"
+          mr="-80px"
           mb="-170px"
           width="fit-content"
           transform="rotate(90deg)"
@@ -120,6 +120,58 @@ export default function Home() {
               ))}
             </Flex>
           ))}
+        </Flex>
+        <Flex direction="column">
+          <Text
+            fontWeight="700"
+            fontSize="9px"
+            ml="-50px"
+            mt="100px"
+            transform="rotate(90deg)"
+            w="120px"
+          >
+            Childhood (Age 0 - 12)
+          </Text>
+          <Text
+            fontWeight="700"
+            fontSize="9px"
+            ml="-63px"
+            mt="170px"
+            transform="rotate(90deg)"
+            w="150px"
+          >
+            Adolescence (Age 13 - 19)
+          </Text>
+          <Text
+            fontWeight="700"
+            fontSize="9px"
+            ml="-76px"
+            mt="180px"
+            transform="rotate(90deg)"
+            w="175px"
+          >
+            Early Adulthood (Age 20 - 34)
+          </Text>
+          <Text
+            fontWeight="700"
+            fontSize="9px"
+            ml="-76px"
+            mt="230px"
+            transform="rotate(90deg)"
+            w="175px"
+          >
+            Middle Adulthood (Age 35 - 49)
+          </Text>
+          <Text
+            fontWeight="700"
+            fontSize="9px"
+            ml="-76px"
+            mt="350px"
+            transform="rotate(90deg)"
+            w="175px"
+          >
+            Late Adulthood (Age 50 - 100)
+          </Text>
         </Flex>
       </Box>
     </Container>
