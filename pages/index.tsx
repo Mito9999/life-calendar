@@ -1,4 +1,5 @@
 import { Container, Heading, Flex, Box, Text } from "@chakra-ui/react";
+import type { HeadingProps, TextProps } from "@chakra-ui/react";
 
 const Circle = ({ size = "20" }: { size: string }) => (
   <svg
@@ -17,79 +18,63 @@ const Circle = ({ size = "20" }: { size: string }) => (
   </svg>
 );
 
+const Arrow = () => (
+  <svg
+    width="161"
+    height="8"
+    viewBox="0 0 161 8"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M160.354 4.35354C160.549 4.15828 160.549 3.84169 160.354 3.64643L157.172 0.464452C156.976 0.26919 156.66 0.26919 156.464 0.464452C156.269 0.659715 156.269 0.976297 156.464 1.17156L159.293 3.99999L156.464 6.82841C156.269 7.02368 156.269 7.34026 156.464 7.53552C156.66 7.73078 156.976 7.73078 157.172 7.53552L160.354 4.35354ZM4.37114e-08 4.5L160 4.49999L160 3.49999L-4.37114e-08 3.5L4.37114e-08 4.5Z"
+      fill="black"
+    />
+  </svg>
+);
+
+const defaultSubheadingStyles: HeadingProps = {
+  fontSize: "12px",
+  fontWeight: "800",
+  width: "fit-content",
+};
+
+const defaultSideLabelStyles: TextProps = {
+  fontWeight: "700",
+  fontSize: "9px",
+  transform: "rotate(90deg)",
+};
+
 export default function Home() {
   return (
-    <Container maxW="936px" textTransform="uppercase">
+    <Container maxW="936px" textTransform="uppercase" mb="30px">
       <Heading fontSize="72px" fontWeight="900" textAlign="center" pt="30px">
         CALENDAR OF YOUR LIFE
       </Heading>
       <Heading fontSize="12px" fontWeight="800" textAlign="center" pt="15px">
         Time is limited and precious, how do you want to spend it?
       </Heading>
-      <Heading
-        fontSize="12px"
-        fontWeight="800"
-        pt="15px"
-        pb="8px"
-        width="fit-content"
-      >
+      <Heading {...defaultSubheadingStyles} pt="15px" pb="8px">
         Weeks of your life
-        <svg
-          width="161"
-          height="8"
-          viewBox="0 0 161 8"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M160.354 4.35354C160.549 4.15828 160.549 3.84169 160.354 3.64643L157.172 0.464452C156.976 0.26919 156.66 0.26919 156.464 0.464452C156.269 0.659715 156.269 0.976297 156.464 1.17156L159.293 3.99999L156.464 6.82841C156.269 7.02368 156.269 7.34026 156.464 7.53552C156.66 7.73078 156.976 7.73078 157.172 7.53552L160.354 4.35354ZM4.37114e-08 4.5L160 4.49999L160 3.49999L-4.37114e-08 3.5L4.37114e-08 4.5Z"
-            fill="black"
-          />
-        </svg>
+        <Arrow />
       </Heading>
       <Flex justify="space-between">
         <Heading
-          fontSize="12px"
-          fontWeight="800"
-          width="fit-content"
+          {...defaultSubheadingStyles}
           transform="rotate(90deg)"
           ml="-210px"
           mb="-170px"
         >
-          <svg
-            width="161"
-            height="8"
-            viewBox="0 0 161 8"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M160.354 4.35354C160.549 4.15828 160.549 3.84169 160.354 3.64643L157.172 0.464452C156.976 0.26919 156.66 0.26919 156.464 0.464452C156.269 0.659715 156.269 0.976297 156.464 1.17156L159.293 3.99999L156.464 6.82841C156.269 7.02368 156.269 7.34026 156.464 7.53552C156.66 7.73078 156.976 7.73078 157.172 7.53552L160.354 4.35354ZM4.37114e-08 4.5L160 4.49999L160 3.49999L-4.37114e-08 3.5L4.37114e-08 4.5Z"
-              fill="black"
-            />
-          </svg>
+          <Arrow />
           Years of your life
         </Heading>
         <Heading
-          fontSize="12px"
-          fontWeight="800"
+          {...defaultSubheadingStyles}
           mr="-80px"
           mb="-170px"
-          width="fit-content"
           transform="rotate(90deg)"
         >
-          <svg
-            width="161"
-            height="8"
-            viewBox="0 0 161 8"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M160.354 4.35354C160.549 4.15828 160.549 3.84169 160.354 3.64643L157.172 0.464452C156.976 0.26919 156.66 0.26919 156.464 0.464452C156.269 0.659715 156.269 0.976297 156.464 1.17156L159.293 3.99999L156.464 6.82841C156.269 7.02368 156.269 7.34026 156.464 7.53552C156.66 7.73078 156.976 7.73078 157.172 7.53552L160.354 4.35354ZM4.37114e-08 4.5L160 4.49999L160 3.49999L-4.37114e-08 3.5L4.37114e-08 4.5Z"
-              fill="black"
-            />
-          </svg>
+          <Arrow />
           Stages of your life
         </Heading>
       </Flex>
@@ -97,10 +82,12 @@ export default function Home() {
         <Flex direction="column" mt="2px">
           {new Array(100).fill(0).map((_, num) => (
             <Text
-              fontWeight="700"
-              fontSize="11.5px"
-              ml="-30px"
+              fontWeight="900"
+              fontSize="9px"
+              ml="-40px"
               key={"Num" + num}
+              mb="4px"
+              textAlign="center"
             >
               {num + 1}
             </Text>
@@ -122,54 +109,19 @@ export default function Home() {
           ))}
         </Flex>
         <Flex direction="column">
-          <Text
-            fontWeight="700"
-            fontSize="9px"
-            ml="-50px"
-            mt="100px"
-            transform="rotate(90deg)"
-            w="120px"
-          >
+          <Text {...defaultSideLabelStyles} ml="-50px" mt="100px" w="120px">
             Childhood (Age 0 - 12)
           </Text>
-          <Text
-            fontWeight="700"
-            fontSize="9px"
-            ml="-63px"
-            mt="170px"
-            transform="rotate(90deg)"
-            w="150px"
-          >
+          <Text {...defaultSideLabelStyles} ml="-63px" mt="170px" w="150px">
             Adolescence (Age 13 - 19)
           </Text>
-          <Text
-            fontWeight="700"
-            fontSize="9px"
-            ml="-76px"
-            mt="180px"
-            transform="rotate(90deg)"
-            w="175px"
-          >
+          <Text {...defaultSideLabelStyles} ml="-76px" mt="180px" w="175px">
             Early Adulthood (Age 20 - 34)
           </Text>
-          <Text
-            fontWeight="700"
-            fontSize="9px"
-            ml="-76px"
-            mt="230px"
-            transform="rotate(90deg)"
-            w="175px"
-          >
+          <Text {...defaultSideLabelStyles} ml="-76px" mt="230px" w="175px">
             Middle Adulthood (Age 35 - 49)
           </Text>
-          <Text
-            fontWeight="700"
-            fontSize="9px"
-            ml="-76px"
-            mt="350px"
-            transform="rotate(90deg)"
-            w="175px"
-          >
+          <Text {...defaultSideLabelStyles} ml="-76px" mt="350px" w="175px">
             Late Adulthood (Age 50 - 100)
           </Text>
         </Flex>
