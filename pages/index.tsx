@@ -1,58 +1,25 @@
+import { CheckIcon, EditIcon } from "@chakra-ui/icons";
+import type { HeadingProps, TextProps } from "@chakra-ui/react";
 import {
-  Container,
-  Heading,
-  Flex,
   Box,
-  Text,
+  Container,
+  Flex,
+  Heading,
   Select,
+  Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import type { HeadingProps, TextProps } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
-import { EditIcon, CheckIcon } from "@chakra-ui/icons";
-
+import { useEffect, useState } from "react";
+import Arrow from "../components/Arrow";
+import Circle from "../components/Circle";
 const SECONDS_IN_ONE_WEEK = 60 * 60 * 24 * 7;
+const defaultBdayData = { month: 1, day: 1, year: 2000 };
 
-const Circle = ({
-  size = "20",
-  outline = "#000000",
-  isFilled = false,
-}: {
-  size: string;
-  outline?: string;
-  isFilled?: boolean;
-}) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox={`0 0 ${size} ${size}`}
-    fill={isFilled ? outline + "66" : "none"}
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <circle
-      cx={Number(size) / 2}
-      cy={Number(size) / 2}
-      r={Math.floor(Number(size) / 2)}
-      stroke={outline}
-    />
-  </svg>
-);
-
-const Arrow = (props: { [key: string]: any } = {}) => (
-  <svg
-    width="161"
-    height="8"
-    viewBox="0 0 161 8"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    {...props}
-  >
-    <path
-      d="M160.354 4.35354C160.549 4.15828 160.549 3.84169 160.354 3.64643L157.172 0.464452C156.976 0.26919 156.66 0.26919 156.464 0.464452C156.269 0.659715 156.269 0.976297 156.464 1.17156L159.293 3.99999L156.464 6.82841C156.269 7.02368 156.269 7.34026 156.464 7.53552C156.66 7.73078 156.976 7.73078 157.172 7.53552L160.354 4.35354ZM4.37114e-08 4.5L160 4.49999L160 3.49999L-4.37114e-08 3.5L4.37114e-08 4.5Z"
-      fill="black"
-    />
-  </svg>
-);
+type BDay = {
+  month: number;
+  day: number;
+  year: number;
+};
 
 const defaultSubheadingStyles: HeadingProps = {
   fontSize: "12px",
@@ -76,31 +43,36 @@ const yearToHex = (year: number) => {
   return "#000000";
 };
 
-type BDay = {
-  month: number;
-  day: number;
-  year: number;
-};
-
 export default function Home() {
   const { isOpen, onToggle } = useDisclosure();
 
-  const [bdayFormData, setBdayFormData] = useState<BDay>({
-    month: 1,
-    day: 1,
-    year: 2000,
-  });
+  const [bdayFormData, setBdayFormData] = useState<BDay>(defaultBdayData);
+  const [birthDay, setBirthDay] = useState(
+    new Date(bdayFormData.year, bdayFormData.month, bdayFormData.day)
+  );
 
-  const handleBdayFormData = (e: any) => {
-    const { name, value } = e.target;
+  const handleBdayFormData = ({ target: { name, value } }: any) => {
     setBdayFormData((prev) => ({
       ...prev,
       [name]: Number(value),
     }));
   };
-  const [birthDay, setBirthDay] = useState(
-    new Date(bdayFormData.year, bdayFormData.month - 1, bdayFormData.day)
+
+  const weeks = Math.round(
+    (new Date().getTime() - birthDay.getTime()) / 1000 / SECONDS_IN_ONE_WEEK
   );
+
+  const daysInMonth = new Date(
+    bdayFormData.year,
+    bdayFormData.month,
+    0
+  ).getDate();
+  const months = Array.from({ length: 12 }, (_, n) => n + 1); // January starts at 0
+  const days = Array.from({ length: daysInMonth }, (_, n) => n + 1);
+  const years = Array.from(
+    { length: new Date().getFullYear() - 1900 + 1 },
+    (_, n) => n + 1900
+  ).reverse();
 
   useEffect(() => {
     try {
@@ -121,31 +93,15 @@ export default function Home() {
     }
   }, []);
 
-  const weeks = Math.round(
-    (new Date().getTime() - birthDay.getTime()) / 1000 / SECONDS_IN_ONE_WEEK
-  );
-
-  const daysInMonth = new Date(
-    bdayFormData.year,
-    bdayFormData.month,
-    0
-  ).getDate();
-  const months = Array.from({ length: 12 }, (_, n) => n + 1);
-  const days = Array.from({ length: daysInMonth }, (_, n) => n + 1);
-  const years = Array.from(
-    { length: new Date().getFullYear() - 1900 + 1 },
-    (_, n) => n + 1900
-  ).reverse();
-
   useEffect(() => {
-    setBirthDay(
-      new Date(bdayFormData.year, bdayFormData.month - 1, bdayFormData.day)
+    const newDay = new Date(
+      bdayFormData.year,
+      bdayFormData.month,
+      bdayFormData.day
     );
+    setBirthDay(newDay);
+    localStorage.setItem("bday", JSON.stringify(newDay));
   }, [bdayFormData]);
-
-  useEffect(() => {
-    localStorage.setItem("bday", JSON.stringify(birthDay));
-  }, [birthDay]);
 
   return (
     <Container maxW="936px" textTransform="uppercase" mb="30px">
@@ -178,7 +134,7 @@ export default function Home() {
                 onChange={handleBdayFormData}
               >
                 {months.map((month) => (
-                  <option key={`Month option ${month}`} value={month}>
+                  <option key={`Month option ${month}`} value={month - 1}>
                     {month}
                   </option>
                 ))}
