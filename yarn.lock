@@ -232,6 +232,14 @@
   dependencies:
     "@chakra-ui/utils" "1.8.0"
 
+"@chakra-ui/icons@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/icons/-/icons-1.0.13.tgz#d8eb04479b048d8023ae90d76205cd4a0bf7dd79"
+  integrity sha512-twDpFz2uPVboMTEI4QA2y3EJND3G4+/9AVs730fgnnfhTw4EOJt0Lhfm4Spq1qi1LgHF16x4/Lao1E2imB5lWw==
+  dependencies:
+    "@chakra-ui/icon" "1.1.9"
+    "@types/react" "^17.0.0"
+
 "@chakra-ui/image@1.0.15":
   version "1.0.15"
   resolved "https://registry.yarnpkg.com/@chakra-ui/image/-/image-1.0.15.tgz#57aaf7e22d2793b9278481aab56b27063a922e5b"
@@ -846,6 +854,15 @@
   version "17.0.7"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.7.tgz#5f2ca73d8baee8c286e96c95df557799ac0d1996"
   integrity sha512-lBc3fY20hRFQ/pXQT2XdtmpJeXZnRH8N+WPnEzEfPTzuKmaJTA7k/xGWHBaPvKceKpbf0ZnMlLWY/0sFZ5rfkw==
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    csstype "^3.0.2"
+
+"@types/react@^17.0.0":
+  version "17.0.8"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.8.tgz#fe76e3ba0fbb5602704110fd1e3035cf394778e3"
+  integrity sha512-3sx4c0PbXujrYAKwXxNONXUtRp9C+hE2di0IuxFyf5BELD+B+AXL8G7QrmSKhVwKZDbv0igiAjQAMhXj8Yg3aw==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"

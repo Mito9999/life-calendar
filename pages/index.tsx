@@ -1,13 +1,17 @@
-import { Container, Heading, Flex, Box, Text } from "@chakra-ui/react";
+import {
+  Container,
+  Heading,
+  Flex,
+  Box,
+  Text,
+  Select,
+  useDisclosure,
+} from "@chakra-ui/react";
 import type { HeadingProps, TextProps } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import { EditIcon } from "@chakra-ui/icons";
 
 const SECONDS_IN_ONE_WEEK = 60 * 60 * 24 * 7;
-const weeks = (() =>
-  Math.round(
-    (new Date().getTime() - new Date("1920").getTime()) /
-      1000 /
-      SECONDS_IN_ONE_WEEK
-  ))();
 
 const Circle = ({
   size = "20",
@@ -34,13 +38,14 @@ const Circle = ({
   </svg>
 );
 
-const Arrow = () => (
+const Arrow = (props: { [key: string]: any } = {}) => (
   <svg
     width="161"
     height="8"
     viewBox="0 0 161 8"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    {...props}
   >
     <path
       d="M160.354 4.35354C160.549 4.15828 160.549 3.84169 160.354 3.64643L157.172 0.464452C156.976 0.26919 156.66 0.26919 156.464 0.464452C156.269 0.659715 156.269 0.976297 156.464 1.17156L159.293 3.99999L156.464 6.82841C156.269 7.02368 156.269 7.34026 156.464 7.53552C156.66 7.73078 156.976 7.73078 157.172 7.53552L160.354 4.35354ZM4.37114e-08 4.5L160 4.49999L160 3.49999L-4.37114e-08 3.5L4.37114e-08 4.5Z"
@@ -72,6 +77,46 @@ const yearToHex = (year: number) => {
 };
 
 export default function Home() {
+  const { isOpen, onToggle } = useDisclosure();
+  const [bdayFormData, setBdayFormData] = useState({
+    month: 1,
+    day: 1,
+    year: 2000,
+  });
+  const handleBdayFormData = (e: any) => {
+    const { name, value } = e.target;
+    setBdayFormData((prev) => ({
+      ...prev,
+      [name]: Number(value),
+    }));
+  };
+  const [birthDay, setBirthDay] = useState(
+    new Date(bdayFormData.year, bdayFormData.month - 1, bdayFormData.day)
+  );
+  const weeks = Math.round(
+    (new Date().getTime() - birthDay.getTime()) / 1000 / SECONDS_IN_ONE_WEEK
+  );
+
+  const daysInMonth = new Date(
+    bdayFormData.year,
+    bdayFormData.month,
+    0
+  ).getDate();
+  const months = Array.from({ length: 12 }, (_, n) => n + 1);
+  const days = Array.from({ length: daysInMonth }, (_, n) => n + 1);
+  const years = Array.from(
+    { length: new Date().getFullYear() - 1900 + 1 },
+    (_, n) => n + 1900
+  ).reverse();
+
+  useEffect(() => {
+    setBirthDay(
+      new Date(bdayFormData.year, bdayFormData.month - 1, bdayFormData.day)
+    );
+    console.log(
+      new Date(bdayFormData.year, bdayFormData.month - 1, bdayFormData.day)
+    );
+  }, [bdayFormData]);
   return (
     <Container maxW="936px" textTransform="uppercase" mb="30px">
       <Heading fontSize="72px" fontWeight="900" textAlign="center" pt="30px">
@@ -80,10 +125,66 @@ export default function Home() {
       <Heading fontSize="12px" fontWeight="800" textAlign="center" pt="15px">
         Time is limited and precious, how do you want to spend it?
       </Heading>
-      <Heading {...defaultSubheadingStyles} pt="15px" pb="8px">
-        Weeks of your life
-        <Arrow />
-      </Heading>
+      <Flex justify="space-between">
+        <Heading {...defaultSubheadingStyles} pt="15px" pb="8px">
+          Weeks of your life
+          <Arrow />
+        </Heading>
+        <Heading
+          {...defaultSubheadingStyles}
+          pt="15px"
+          pb="8px"
+          textAlign="right"
+        >
+          <EditIcon mr="5px" cursor="pointer" onClick={onToggle} />
+          {isOpen ? (
+            <>
+              <Select
+                name="month"
+                size="sm"
+                value={bdayFormData.month}
+                onChange={handleBdayFormData}
+              >
+                {months.map((month) => (
+                  <option key={`Month option ${month}`} value={month}>
+                    {month}
+                  </option>
+                ))}
+              </Select>
+              <Select
+                name="day"
+                size="sm"
+                value={bdayFormData.day}
+                onChange={handleBdayFormData}
+              >
+                {days.map((day) => (
+                  <option key={`Day option ${day}`} value={day}>
+                    {day}
+                  </option>
+                ))}
+              </Select>
+              <Select
+                name="year"
+                size="sm"
+                value={bdayFormData.year}
+                onChange={handleBdayFormData}
+              >
+                {years.map((year) => (
+                  <option key={`Year option ${year}`} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </Select>
+            </>
+          ) : (
+            birthDay.toLocaleDateString()
+          )}
+          <Box transform="rotate(180deg)">
+            <Arrow />
+          </Box>
+        </Heading>
+      </Flex>
+
       <Flex justify="space-between">
         <Heading
           {...defaultSubheadingStyles}
