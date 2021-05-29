@@ -76,13 +76,21 @@ const yearToHex = (year: number) => {
   return "#000000";
 };
 
+type BDay = {
+  month: number;
+  day: number;
+  year: number;
+};
+
 export default function Home() {
   const { isOpen, onToggle } = useDisclosure();
-  const [bdayFormData, setBdayFormData] = useState({
+
+  const [bdayFormData, setBdayFormData] = useState<BDay>({
     month: 1,
     day: 1,
     year: 2000,
   });
+
   const handleBdayFormData = (e: any) => {
     const { name, value } = e.target;
     setBdayFormData((prev) => ({
@@ -93,6 +101,26 @@ export default function Home() {
   const [birthDay, setBirthDay] = useState(
     new Date(bdayFormData.year, bdayFormData.month - 1, bdayFormData.day)
   );
+
+  useEffect(() => {
+    try {
+      const bdayString = JSON.parse(localStorage.getItem("bday")!);
+      const birthday = new Date(bdayString);
+      if (
+        Object.prototype.toString.call(birthday) === "[object Date]" &&
+        !isNaN(birthday.getTime())
+      ) {
+        setBdayFormData({
+          month: birthday.getMonth(),
+          day: birthday.getDate(),
+          year: birthday.getFullYear(),
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
+
   const weeks = Math.round(
     (new Date().getTime() - birthDay.getTime()) / 1000 / SECONDS_IN_ONE_WEEK
   );
@@ -113,10 +141,12 @@ export default function Home() {
     setBirthDay(
       new Date(bdayFormData.year, bdayFormData.month - 1, bdayFormData.day)
     );
-    console.log(
-      new Date(bdayFormData.year, bdayFormData.month - 1, bdayFormData.day)
-    );
   }, [bdayFormData]);
+
+  useEffect(() => {
+    localStorage.setItem("bday", JSON.stringify(birthDay));
+  }, [birthDay]);
+
   return (
     <Container maxW="936px" textTransform="uppercase" mb="30px">
       <Heading fontSize="72px" fontWeight="900" textAlign="center" pt="30px">
@@ -132,7 +162,7 @@ export default function Home() {
         </Heading>
         <Heading
           {...defaultSubheadingStyles}
-          pt={isOpen ? "17px" : "35px"}
+          pt={isOpen ? "25px" : "35px"}
           pb="8px"
           textAlign="right"
         >
@@ -141,8 +171,9 @@ export default function Home() {
               <CheckIcon mr="10px" cursor="pointer" onClick={onToggle} />
               <Select
                 name="month"
-                size="sm"
-                w="60px"
+                size="xs"
+                w="55px"
+                mr="3px"
                 value={bdayFormData.month}
                 onChange={handleBdayFormData}
               >
@@ -154,8 +185,9 @@ export default function Home() {
               </Select>
               <Select
                 name="day"
-                size="sm"
+                size="xs"
                 w="60px"
+                mr="3px"
                 value={bdayFormData.day}
                 onChange={handleBdayFormData}
               >
@@ -167,8 +199,8 @@ export default function Home() {
               </Select>
               <Select
                 name="year"
-                size="sm"
-                w="80px"
+                size="xs"
+                w="75px"
                 value={bdayFormData.year}
                 onChange={handleBdayFormData}
               >
