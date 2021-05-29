@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import type { HeadingProps, TextProps } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import { EditIcon } from "@chakra-ui/icons";
+import { EditIcon, CheckIcon } from "@chakra-ui/icons";
 
 const SECONDS_IN_ONE_WEEK = 60 * 60 * 24 * 7;
 
@@ -126,22 +126,23 @@ export default function Home() {
         Time is limited and precious, how do you want to spend it?
       </Heading>
       <Flex justify="space-between">
-        <Heading {...defaultSubheadingStyles} pt="15px" pb="8px">
+        <Heading {...defaultSubheadingStyles} pt="35px" pb="8px">
           Weeks of your life
           <Arrow />
         </Heading>
         <Heading
           {...defaultSubheadingStyles}
-          pt="15px"
+          pt={isOpen ? "17px" : "35px"}
           pb="8px"
           textAlign="right"
         >
-          <EditIcon mr="5px" cursor="pointer" onClick={onToggle} />
           {isOpen ? (
-            <>
+            <Flex align="center">
+              <CheckIcon mr="10px" cursor="pointer" onClick={onToggle} />
               <Select
                 name="month"
                 size="sm"
+                w="60px"
                 value={bdayFormData.month}
                 onChange={handleBdayFormData}
               >
@@ -154,6 +155,7 @@ export default function Home() {
               <Select
                 name="day"
                 size="sm"
+                w="60px"
                 value={bdayFormData.day}
                 onChange={handleBdayFormData}
               >
@@ -166,6 +168,7 @@ export default function Home() {
               <Select
                 name="year"
                 size="sm"
+                w="80px"
                 value={bdayFormData.year}
                 onChange={handleBdayFormData}
               >
@@ -175,9 +178,12 @@ export default function Home() {
                   </option>
                 ))}
               </Select>
-            </>
+            </Flex>
           ) : (
-            birthDay.toLocaleDateString()
+            <>
+              <EditIcon mr="8px" cursor="pointer" onClick={onToggle} />
+              {birthDay.toLocaleDateString()}
+            </>
           )}
           <Box transform="rotate(180deg)">
             <Arrow />
