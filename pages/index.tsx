@@ -1,6 +1,14 @@
 import { Container, Heading, Flex, Box, Text } from "@chakra-ui/react";
 import type { HeadingProps, TextProps } from "@chakra-ui/react";
 
+const SECONDS_IN_ONE_WEEK = 60 * 60 * 24 * 7;
+const weeks = (() =>
+  Math.round(
+    (new Date().getTime() - new Date("1920").getTime()) /
+      1000 /
+      SECONDS_IN_ONE_WEEK
+  ))();
+
 const Circle = ({
   size = "20",
   outline = "#000000",
@@ -54,12 +62,12 @@ const defaultSideLabelStyles: TextProps = {
 };
 
 const yearToHex = (year: number) => {
-  if (year <= 12) return "#e7ac3e";
+  if (year <= 12) return "#2acdf1";
   if (year <= 19) return "#f87a40";
-  if (year <= 34) return "#db61b0";
-  if (year <= 49) return "#ff4fe8";
-  if (year <= 79) return "#2acdf1";
-  if (year <= 100) return "#1af041";
+  if (year <= 34) return "#ff4fe8";
+  if (year <= 49) return "#1af041";
+  if (year <= 79) return "#f5aa1f";
+  if (year <= 100) return "#db61b0";
   return "#000000";
 };
 
@@ -120,7 +128,11 @@ export default function Home() {
                   mr="2px"
                   key={`YEAR ${idx1 + 1} WEEK ${idx2 + 1}`}
                 >
-                  <Circle size="15" outline={yearToHex(idx1 + 1)} />
+                  <Circle
+                    size="15"
+                    outline={yearToHex(idx1 + 1)}
+                    isFilled={(idx1 + 1) * 52 + idx2 < weeks}
+                  />
                 </Box>
               ))}
             </Flex>
