@@ -201,7 +201,7 @@ export default function Home() {
       </Flex>
       <Box display="flex" flexDirection="row">
         <Flex direction="column" mt="2px">
-          {new Array(100).fill(0).map((_, num) => (
+          {new Array(101).fill(0).map((_, num) => (
             <Text
               fontWeight="900"
               fontSize="9px"
@@ -210,23 +210,23 @@ export default function Home() {
               mb="4px"
               textAlign="center"
             >
-              {num + 1}
+              {num}
             </Text>
           ))}
         </Flex>
         <Flex direction="column">
-          {new Array(100).fill(0).map((_, idx1) => (
-            <Flex mt="2px" maxW="936px" key={`YEAR ${idx1 + 1}`}>
+          {new Array(101).fill(0).map((_, idx1) => (
+            <Flex mt="2px" maxW="936px" key={`YEAR ${idx1}`}>
               {new Array(52).fill(0).map((_, idx2) => (
                 <Box
                   w={936 / 52 - 2 + "px"}
                   mr="2px"
-                  key={`YEAR ${idx1 + 1} WEEK ${idx2 + 1}`}
+                  key={`YEAR ${idx1} WEEK ${idx2 + 1}`}
                 >
                   <Circle
                     size="15"
-                    outline={yearToHex(idx1 + 1)}
-                    isFilled={(idx1 + 1) * 52 + idx2 < weeks}
+                    outline={yearToHex(idx1)}
+                    isFilled={idx1 * 52 + idx2 < weeks}
                   />
                 </Box>
               ))}
@@ -237,7 +237,7 @@ export default function Home() {
           <Text
             {...defaultSideLabelStyles}
             ml="-50px"
-            mt="100px"
+            mt="110px"
             w="120px"
             color={yearToHex(12)}
           >
@@ -246,7 +246,7 @@ export default function Home() {
           <Text
             {...defaultSideLabelStyles}
             ml="-63px"
-            mt="158px"
+            mt="165px"
             w="150px"
             color={yearToHex(19)}
           >
@@ -255,7 +255,7 @@ export default function Home() {
           <Text
             {...defaultSideLabelStyles}
             ml="-76px"
-            mt="180px"
+            mt="170px"
             w="175px"
             color={yearToHex(34)}
           >
@@ -264,7 +264,7 @@ export default function Home() {
           <Text
             {...defaultSideLabelStyles}
             ml="-76px"
-            mt="230px"
+            mt="240px"
             w="175px"
             color={yearToHex(49)}
           >
@@ -273,7 +273,7 @@ export default function Home() {
           <Text
             {...defaultSideLabelStyles}
             ml="-76px"
-            mt="350px"
+            mt="365px"
             w="175px"
             color={yearToHex(79)}
           >
