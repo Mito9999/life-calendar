@@ -8,6 +8,7 @@ import {
   Select,
   Text,
   useDisclosure,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import Arrow from "../components/Arrow";
@@ -45,6 +46,8 @@ const yearToHex = (year: number) => {
 
 export default function Home() {
   const { isOpen, onToggle } = useDisclosure();
+  const [isLargerThan1100] = useMediaQuery("(min-width: 1100px)");
+  const monthsOrWeeks = isLargerThan1100 ? 52 : 12;
 
   const [bdayFormData, setBdayFormData] = useState<BDay>(defaultBdayData);
   const [birthDay, setBirthDay] = useState(
@@ -105,14 +108,24 @@ export default function Home() {
 
   return (
     <Container maxW="936px" textTransform="uppercase" mb="30px">
-      <Heading fontSize="72px" fontWeight="900" textAlign="center" pt="30px">
+      <Heading
+        fontSize={isLargerThan1100 ? "72px" : "40px"}
+        fontWeight="900"
+        textAlign="center"
+        pt="30px"
+      >
         CALENDAR OF YOUR LIFE
       </Heading>
       <Heading fontSize="12px" fontWeight="800" textAlign="center" pt="15px">
         Time is limited and precious, how do you want to spend it?
       </Heading>
       <Flex justify="space-between">
-        <Heading {...defaultSubheadingStyles} pt="35px" pb="8px">
+        <Heading
+          {...defaultSubheadingStyles}
+          pt="35px"
+          pb="8px"
+          opacity={isLargerThan1100 ? "1" : "0"}
+        >
           Weeks of your life
           <Arrow />
         </Heading>
@@ -185,21 +198,27 @@ export default function Home() {
           transform="rotate(90deg)"
           ml="-210px"
           mb="-170px"
+          opacity={isLargerThan1100 ? "1" : "0"}
         >
           <Arrow />
           Years of your life
         </Heading>
         <Heading
           {...defaultSubheadingStyles}
-          mr="-80px"
+          mr="-60px"
           mb="-170px"
           transform="rotate(90deg)"
+          opacity={isLargerThan1100 ? "1" : "0"}
         >
           <Arrow />
           Stages of your life
         </Heading>
       </Flex>
-      <Box display="flex" flexDirection="row">
+      <Box
+        display="flex"
+        flexDirection="row"
+        justifyContent={isLargerThan1100 ? "initial" : "center"}
+      >
         <Flex direction="column" mt="2px">
           {new Array(101).fill(0).map((_, num) => (
             <Text
@@ -217,23 +236,26 @@ export default function Home() {
         <Flex direction="column">
           {new Array(101).fill(0).map((_, idx1) => (
             <Flex mt="2px" maxW="936px" key={`YEAR ${idx1}`}>
-              {new Array(52).fill(0).map((_, idx2) => (
+              {new Array(monthsOrWeeks).fill(0).map((_, idx2) => (
                 <Box
-                  w={936 / 52 - 2 + "px"}
+                  w={936 / 52 - 2.5 + "px"}
                   mr="2px"
                   key={`YEAR ${idx1} WEEK ${idx2 + 1}`}
                 >
                   <Circle
                     size="15"
                     outline={yearToHex(idx1)}
-                    isFilled={idx1 * 52 + idx2 < weeks}
+                    isFilled={
+                      idx1 * monthsOrWeeks + idx2 <
+                      weeks / (isLargerThan1100 ? 1 : 13 / 3)
+                    }
                   />
                 </Box>
               ))}
             </Flex>
           ))}
         </Flex>
-        <Flex direction="column">
+        <Flex direction="column" w="30px">
           <Text
             {...defaultSideLabelStyles}
             ml="-50px"
