@@ -8,11 +8,11 @@ import {
   Select,
   Text,
   useDisclosure,
-  useMediaQuery,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import Arrow from "../components/Arrow";
 import Circle from "../components/Circle";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 const SECONDS_IN_ONE_WEEK = 60 * 60 * 24 * 7;
 const defaultBdayData = { month: 1, day: 1, year: 2000 };
 
@@ -50,7 +50,7 @@ const yearToHex = (year: number) => {
 
 export default function Home() {
   const { isOpen, onToggle } = useDisclosure();
-  const [isLargerThan1100] = useMediaQuery("(min-width: 1100px)");
+  const isLargerThan1100 = useMediaQuery("(min-width: 1100px)");
   const monthsOrWeeks = isLargerThan1100 ? 52 : 12;
 
   const [bdayFormData, setBdayFormData] = useState<BDay>(defaultBdayData);
@@ -90,7 +90,7 @@ export default function Home() {
         Object.prototype.toString.call(birthday) === "[object Date]" &&
         !isNaN(birthday.getTime())
       ) {
-        const m = birthday.getMonth();
+        const m = birthday.getMonth() + 1;
         const d = birthday.getDate();
         const y = birthday.getFullYear();
         const newFormData = { month: m, day: d, year: y };
