@@ -16,6 +16,10 @@ import Circle from "../components/Circle";
 const SECONDS_IN_ONE_WEEK = 60 * 60 * 24 * 7;
 const defaultBdayData = { month: 1, day: 1, year: 2000 };
 
+const allAreType = (t: string = "number", elements: any[] = []) => {
+  return elements.every((elem) => typeof elem === t);
+};
+
 type BDay = {
   month: number;
   day: number;
@@ -51,7 +55,7 @@ export default function Home() {
 
   const [bdayFormData, setBdayFormData] = useState<BDay>(defaultBdayData);
   const [birthDay, setBirthDay] = useState(
-    new Date(bdayFormData.year, bdayFormData.month, bdayFormData.day)
+    new Date(bdayFormData.year, bdayFormData.month - 1, bdayFormData.day)
   );
 
   const handleBdayFormData = ({ target: { name, value } }: any) => {
@@ -80,16 +84,17 @@ export default function Home() {
   useEffect(() => {
     try {
       const bdayString = JSON.parse(localStorage.getItem("bday")!);
+      if (!bdayString) return;
       const birthday = new Date(bdayString);
       if (
         Object.prototype.toString.call(birthday) === "[object Date]" &&
         !isNaN(birthday.getTime())
       ) {
-        setBdayFormData({
-          month: birthday.getMonth(),
-          day: birthday.getDate(),
-          year: birthday.getFullYear(),
-        });
+        const m = birthday.getMonth();
+        const d = birthday.getDate();
+        const y = birthday.getFullYear();
+        const newFormData = { month: m, day: d, year: y };
+        setBdayFormData(newFormData);
       }
     } catch (err) {
       console.log(err);
@@ -97,13 +102,14 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const newDay = new Date(
-      bdayFormData.year,
-      bdayFormData.month,
-      bdayFormData.day
-    );
-    setBirthDay(newDay);
-    localStorage.setItem("bday", JSON.stringify(newDay));
+    const y = bdayFormData.year;
+    const m = bdayFormData.month - 1;
+    const d = bdayFormData.day;
+    if (allAreType("number", [y, m, d])) {
+      const newDay = new Date(y, m, d);
+      setBirthDay(newDay);
+      localStorage.setItem("bday", JSON.stringify(newDay));
+    }
   }, [bdayFormData]);
 
   return (
@@ -147,7 +153,7 @@ export default function Home() {
                 onChange={handleBdayFormData}
               >
                 {months.map((month) => (
-                  <option key={`Month option ${month}`} value={month - 1}>
+                  <option key={`Month option ${month}`} value={month}>
                     {month}
                   </option>
                 ))}
