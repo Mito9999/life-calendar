@@ -52,6 +52,7 @@ export default function Home() {
   const { isOpen, onToggle } = useDisclosure();
   const isLargerThan1100 = useMediaQuery("(min-width: 1100px)");
   const monthsOrWeeks = isLargerThan1100 ? 52 : 12;
+  const weekAccuracyOffset = monthsOrWeeks === 52 ? 0.1429 : 0; // There are 52.1429 weeks in a year, so offset is used to improve accuracy. If months are being shown instead of weeks, then no offset is used because there are exactly 12 months in a year.
 
   const [bdayFormData, setBdayFormData] = useState<BDay>(defaultBdayData);
   const [birthDay, setBirthDay] = useState(
@@ -252,7 +253,7 @@ export default function Home() {
                     size="15"
                     outline={yearToHex(idx1)}
                     isFilled={
-                      idx1 * monthsOrWeeks + idx2 <
+                      idx1 * (monthsOrWeeks + weekAccuracyOffset) + idx2 + 1 <
                       weeks / (isLargerThan1100 ? 1 : 13 / 3)
                     }
                   />
