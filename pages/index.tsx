@@ -126,12 +126,18 @@ export default function Home() {
       <Heading fontSize="12px" fontWeight="800" textAlign="center" pt="15px">
         Time is limited and precious, how do you want to spend it?
       </Heading>
-      <Flex justify="space-between">
+      {!isLargerThan1100 && (
+        <Heading fontSize="12px" fontWeight="700" textAlign="center" pt="15px">
+          (Get the full experience with a larger screen)
+        </Heading>
+      )}
+      <Flex justify={isLargerThan1100 ? "space-between" : "center"}>
         <Heading
           {...defaultSubheadingStyles}
           pt="35px"
           pb="8px"
           opacity={isLargerThan1100 ? "1" : "0"}
+          display={isLargerThan1100 ? "initial" : "none"}
         >
           Weeks of your life
           <Arrow />
@@ -140,7 +146,7 @@ export default function Home() {
           {...defaultSubheadingStyles}
           pt={isOpen ? "25px" : "35px"}
           pb="8px"
-          textAlign="right"
+          textAlign={isLargerThan1100 ? "right" : "center"}
         >
           {isOpen ? (
             <Flex align="center">
@@ -193,9 +199,11 @@ export default function Home() {
               {birthDay.toLocaleDateString()}
             </>
           )}
-          <Box transform="rotate(180deg)">
-            <Arrow />
-          </Box>
+          {isLargerThan1100 && (
+            <Box transform="rotate(180deg)">
+              <Arrow />
+            </Box>
+          )}
         </Heading>
       </Flex>
 
@@ -225,6 +233,7 @@ export default function Home() {
         display="flex"
         flexDirection="row"
         justifyContent={isLargerThan1100 ? "initial" : "center"}
+        pl={isLargerThan1100 ? "0px" : "30px"}
       >
         <Flex direction="column">
           {new Array(101).fill(0).map((_, idx1) => (
