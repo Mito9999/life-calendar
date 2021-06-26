@@ -74,7 +74,11 @@ export default function TopArrowHeaders({
   ).reverse();
 
   return (
-    <Flex justify={isLargerThan1100 ? "space-between" : "center"}>
+    <Flex
+      justify="space-between"
+      w={isLargerThan1100 ? "auto" : "210px"}
+      mx="auto"
+    >
       <Heading
         {...defaultSubheadingStyles}
         pt="35px"
@@ -104,7 +108,7 @@ export default function TopArrowHeaders({
             icon={<Circle size="15" isFilled={true} />}
             onClick={() => setCircleColor("Black")}
           >
-            Black
+            Dark
           </MenuItem>
           <MenuItem
             icon={<Circle size="15" outline="#909090" isFilled={true} />}
@@ -119,7 +123,7 @@ export default function TopArrowHeaders({
         <ModalContent>
           <ModalHeader>Custom Color</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
+          <ModalBody display="flex" justifyContent="center">
             <ChromePicker
               color={customColor}
               onChangeComplete={(color) => setCustomColor(color.hex)}
@@ -130,7 +134,14 @@ export default function TopArrowHeaders({
             <Button variant="ghost" mr={3} onClick={onModalClose}>
               Close
             </Button>
-            <Button onClick={() => setCircleColor(customColor)}>Set</Button>
+            <Button
+              onClick={() => {
+                setCircleColor(customColor);
+                onModalClose();
+              }}
+            >
+              Set
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

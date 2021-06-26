@@ -40,9 +40,8 @@ export default function Home() {
     };
   });
 
-  console.log(yearToHex);
-
   useEffect(() => {
+    localStorage.setItem("circleColor", circleColor);
     const yearFunction = (() => {
       if (circleColor === "Colorful") {
         return (year: number) => {

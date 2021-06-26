@@ -20,7 +20,7 @@ export default function TimeVisualization({
   const weeks = Math.round(
     (new Date().getTime() - birthDay.getTime()) / 1000 / SECONDS_IN_ONE_WEEK
   );
-  console.log(yearToHex);
+
   return (
     <Box
       display="flex"
