@@ -226,23 +226,19 @@ export default function Home() {
         flexDirection="row"
         justifyContent={isLargerThan1100 ? "initial" : "center"}
       >
-        <Flex direction="column" mt="2px">
-          {new Array(101).fill(0).map((_, num) => (
-            <Text
-              fontWeight="900"
-              fontSize="9px"
-              ml="-40px"
-              key={"Num" + num}
-              mb="4px"
-              textAlign="center"
-            >
-              {num}
-            </Text>
-          ))}
-        </Flex>
         <Flex direction="column">
           {new Array(101).fill(0).map((_, idx1) => (
             <Flex mt="2px" maxW="936px" key={`YEAR ${idx1}`}>
+              <Box ml="-25px" position="absolute">
+                <Text
+                  fontWeight="900"
+                  fontSize="9px"
+                  key={"Num" + idx1}
+                  textAlign="center"
+                >
+                  {idx1}
+                </Text>
+              </Box>
               {new Array(monthsOrWeeks).fill(0).map((_, idx2) => (
                 <Box
                   w={936 / 52 - 2.5 + "px"}
