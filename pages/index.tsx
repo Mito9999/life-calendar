@@ -1,20 +1,15 @@
 import { Container } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import TitleHeader from "../components/TitleHeader";
-import TopArrowHeaders from "../components/TopArrowHeaders";
 import SideArrowHeaders from "../components/SideArrowHeaders";
 import TimeVisualization from "../components/TimeVisualization";
+import TitleHeader from "../components/TitleHeader";
+import TopArrowHeaders from "../components/TopArrowHeaders";
+import { defaultBdayData } from "../constants";
 import { useMediaQuery } from "../hooks/useMediaQuery";
-const defaultBdayData = { month: 1, day: 1, year: 2000 };
+import type { BDay } from "../types";
 
 const allAreType = (t: string = "number", elements: any[] = []) => {
   return elements.every((elem) => typeof elem === t);
-};
-
-type BDay = {
-  month: number;
-  day: number;
-  year: number;
 };
 
 export default function Home() {

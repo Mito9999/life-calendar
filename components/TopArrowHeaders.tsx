@@ -3,12 +3,7 @@ import { Box, Flex, Heading, Select, useDisclosure } from "@chakra-ui/react";
 import type { Dispatch, SetStateAction } from "react";
 import Arrow from "./Arrow";
 import { defaultSubheadingStyles } from "../constants";
-
-type BDay = {
-  month: number;
-  day: number;
-  year: number;
-};
+import type { BDay } from "../types";
 
 type Props = {
   data: {

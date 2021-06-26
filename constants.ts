@@ -11,3 +11,5 @@ export const defaultSideLabelStyles: TextProps = {
   fontSize: "9px",
   transform: "rotate(90deg)",
 };
+
+export const defaultBdayData = { month: 1, day: 1, year: 2000 };
