@@ -3,20 +3,15 @@ import { defaultSideLabelStyles } from "../constants";
 import Circle from "./Circle";
 const SECONDS_IN_ONE_WEEK = 60 * 60 * 24 * 7;
 
-const yearToHex = (year: number) => {
-  if (year <= 12) return "#2acdf1";
-  if (year <= 19) return "#f87a40";
-  if (year <= 34) return "#ff4fe8";
-  if (year <= 49) return "#1af041";
-  if (year <= 79) return "#f5aa1f";
-  if (year <= 100) return "#db61b0";
-  return "#000000";
+type Props = {
+  isLargerThan1100: boolean;
+  yearToHex: (year: number) => string;
+  birthDay: Date;
 };
-
-type Props = { isLargerThan1100: boolean; birthDay: Date };
 
 export default function TimeVisualization({
   isLargerThan1100,
+  yearToHex,
   birthDay,
 }: Props) {
   const monthsOrWeeks = isLargerThan1100 ? 52 : 12;
@@ -25,7 +20,7 @@ export default function TimeVisualization({
   const weeks = Math.round(
     (new Date().getTime() - birthDay.getTime()) / 1000 / SECONDS_IN_ONE_WEEK
   );
-
+  console.log(yearToHex);
   return (
     <Box
       display="flex"
@@ -36,12 +31,12 @@ export default function TimeVisualization({
       <Flex direction="column">
         {new Array(101).fill(0).map((_, idx1) => (
           <Flex mt="2px" maxW="936px" key={`YEAR ${idx1}`}>
-            <Box ml="-25px" position="absolute">
+            <Box ml="-25px" textAlign="center" position="absolute">
               <Text
                 fontWeight="900"
+                w="17.7px"
                 fontSize="9px"
                 key={"Num" + idx1}
-                textAlign="center"
               >
                 {idx1}
               </Text>

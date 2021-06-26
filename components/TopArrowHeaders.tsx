@@ -1,9 +1,31 @@
-import { CheckIcon, EditIcon } from "@chakra-ui/icons";
-import { Box, Flex, Heading, Select, useDisclosure } from "@chakra-ui/react";
+import { CheckIcon, EditIcon, MoonIcon } from "@chakra-ui/icons";
+import {
+  Box,
+  Flex,
+  Heading,
+  Select,
+  useDisclosure,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  IconButton,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Button,
+} from "@chakra-ui/react";
 import type { Dispatch, SetStateAction } from "react";
 import Arrow from "./Arrow";
 import { defaultSubheadingStyles } from "../constants";
 import type { BDay } from "../types";
+import Circle from "./Circle";
+import { ChromePicker } from "react-color";
+import { useState } from "react";
 
 type Props = {
   data: {
@@ -11,13 +33,26 @@ type Props = {
     birthDay: Date;
     bdayFormData: BDay;
     setBdayFormData: Dispatch<SetStateAction<BDay>>;
+    setCircleColor: Dispatch<SetStateAction<string>>;
   };
 };
 
 export default function TopArrowHeaders({
-  data: { isLargerThan1100, birthDay, bdayFormData, setBdayFormData },
+  data: {
+    isLargerThan1100,
+    birthDay,
+    bdayFormData,
+    setBdayFormData,
+    setCircleColor,
+  },
 }: Props) {
-  const { isOpen, onToggle } = useDisclosure();
+  const { isOpen, onToggle } = useDisclosure(); // Form
+  const {
+    isOpen: isModalOpen,
+    onOpen: onModalOpen,
+    onClose: onModalClose,
+  } = useDisclosure();
+  const [customColor, setCustomColor] = useState("#909090");
 
   const handleBdayFormData = ({ target: { name, value } }: any) => {
     setBdayFormData((prev) => ({
@@ -50,6 +85,55 @@ export default function TopArrowHeaders({
         Weeks of your life
         <Arrow />
       </Heading>
+      <Menu>
+        <MenuButton
+          as={IconButton}
+          aria-label="Color options"
+          icon={<MoonIcon />}
+          variant="outline"
+          my="auto"
+        />
+        <MenuList>
+          <MenuItem
+            icon={<Circle size="15" outline="#2acdf1" isFilled={true} />}
+            onClick={() => setCircleColor("Colorful")}
+          >
+            Colorful
+          </MenuItem>
+          <MenuItem
+            icon={<Circle size="15" isFilled={true} />}
+            onClick={() => setCircleColor("Black")}
+          >
+            Black
+          </MenuItem>
+          <MenuItem
+            icon={<Circle size="15" outline="#909090" isFilled={true} />}
+            onClick={onModalOpen}
+          >
+            Custom
+          </MenuItem>
+        </MenuList>
+      </Menu>
+      <Modal isOpen={isModalOpen} onClose={onModalClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Custom Color</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <ChromePicker
+              color={customColor}
+              onChangeComplete={(color) => setCustomColor(color.hex)}
+            />
+          </ModalBody>
+
+          <ModalFooter>
+            <Button variant="ghost" mr={3} onClick={onModalClose}>
+              Close
+            </Button>
+            <Button onClick={() => setCircleColor(customColor)}>Set</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <Heading
         {...defaultSubheadingStyles}
         pt={isOpen ? "25px" : "35px"}

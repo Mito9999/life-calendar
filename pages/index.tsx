@@ -19,6 +19,53 @@ export default function Home() {
   const [birthDay, setBirthDay] = useState(
     new Date(bdayFormData.year, bdayFormData.month - 1, bdayFormData.day)
   );
+  const [circleColor, setCircleColor] = useState<"Colorful" | "Black" | string>(
+    (() => {
+      try {
+        return localStorage.getItem("circleColor");
+      } catch {
+        return "Colorful";
+      }
+    })() ?? "Colorful"
+  );
+  const [yearToHex, setYearToHex] = useState<any>(() => {
+    return (year: number) => {
+      if (year <= 12) return "#2acdf1";
+      if (year <= 19) return "#f87a40";
+      if (year <= 34) return "#ff4fe8";
+      if (year <= 49) return "#1af041";
+      if (year <= 79) return "#f5aa1f";
+      if (year <= 100) return "#db61b0";
+      return "#000000";
+    };
+  });
+
+  console.log(yearToHex);
+
+  useEffect(() => {
+    const yearFunction = (() => {
+      if (circleColor === "Colorful") {
+        return (year: number) => {
+          if (year <= 12) return "#2acdf1";
+          if (year <= 19) return "#f87a40";
+          if (year <= 34) return "#ff4fe8";
+          if (year <= 49) return "#1af041";
+          if (year <= 79) return "#f5aa1f";
+          if (year <= 100) return "#db61b0";
+          return "#000000";
+        };
+      } else if (circleColor === "Black") {
+        return (year: number) => {
+          return "#000000";
+        };
+      } else {
+        return (year: number) => {
+          return circleColor;
+        };
+      }
+    })();
+    setYearToHex(() => yearFunction);
+  }, [circleColor]);
 
   useEffect(() => {
     try {
@@ -55,11 +102,18 @@ export default function Home() {
     <Container maxW="936px" textTransform="uppercase" mb="30px">
       <TitleHeader isLargerThan1100={isLargerThan1100} />
       <TopArrowHeaders
-        data={{ isLargerThan1100, birthDay, bdayFormData, setBdayFormData }}
+        data={{
+          isLargerThan1100,
+          birthDay,
+          bdayFormData,
+          setBdayFormData,
+          setCircleColor,
+        }}
       />
       <SideArrowHeaders isLargerThan1100={isLargerThan1100} />
       <TimeVisualization
         isLargerThan1100={isLargerThan1100}
+        yearToHex={yearToHex}
         birthDay={birthDay}
       />
     </Container>
